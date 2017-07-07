@@ -45,7 +45,7 @@ def typewriter(line):
 def responseEngine(level, packets, input):
 	# Make a regex that matches if any of our regexes match.
 	combined = "(" + ")|(".join(packets) + ")"
-	if re.match(combined, input):
+	if re.match(combined, input, re.IGNORECASE):
 		return True
 def discourseEngine(load_time, sleep_time, copy):
 	if load_time != 0: load(load_time)
@@ -71,9 +71,8 @@ def branch4(moment):
 		discourseEngine(0, 1, discSeed_3[1])
 		discourseEngine(3, 0, discSeed_3[2])
 		discourseEngine(3, 0, discSeed_3[3])
-		discourseEngine(3, 0, random.choice(recSeed_3))
 	else:
-		discourseEngine(2, 0, )
+		discourseEngine(2, 0, random.choice(recSeed_3))
 		branch4(moment)
 def branch4_resume():
 	load(4)
@@ -86,8 +85,9 @@ def branch4_resume():
 	typewriter("'Why are you here?', the voice says curtly.")
 
 def branch3(moment):
-	choice_2 = input("What do you do? > ")
+	choice_2 = input("What do you do next? > ")
 	respSeed_2 = ['.*say.*','.*speak.*','.*shout.*']
+	recSeed_2 = ["A useless endeavor... ", "You just don't get it do you? ", "Good try, but not quite. "]
 	discSeed_2 = ["'Ah.' ", "'Finally he speaks!', you hear a voice exclaim.", "'Why are you here?', the voice says curtly."]
 
 	if responseEngine(2, respSeed_2, choice_2):
@@ -97,8 +97,7 @@ def branch3(moment):
 		discourseEngine(0, 1, discSeed_2[1])
 		discourseEngine(3, 0, discSeed_2[2])
 	else:
-		load(2)
-		typewriter("A useless endeavor... ")
+		discourseEngine(2, 0, random.choice(recSeed_2))
 		branch3(moment)
 def branch3_resume():
 	load(4)

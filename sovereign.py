@@ -2,14 +2,14 @@
 
 
 
-from time import sleep
-from pathlib import Path
-import os
-import re
-import sys
-import pickle
-import copy
-import errno
+# from time import sleep
+# from pathlib import Path
+# import os
+# import re
+# import sys
+# import pickle
+# import copy
+# import errno
 
 import sov_utils
 import sov_engines
@@ -17,30 +17,8 @@ import sov_storyline
 
 
 
-
 ###############
 #### UTILS ####
-# def save_obj(obj, name ):
-# 	filename = 'save/momento.pkl'
-# 	if not os.path.exists(os.path.dirname(filename)):
-# 		try:
-# 			os.makedirs(os.path.dirname(filename))
-# 		except OSError as exc: # Guard against race condition
-# 			if exc.errno != errno.EEXIST:
-# 				raise
-# 	with open(filename, "w") as f:
-# 	    f.write("")
-
-# 	with open('save/'+ name + '.pkl', 'wb') as f:
-# 		pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
-# def load_obj(name ):
-# 	filename = 'save/momento.pkl'
-# 	if os.path.isfile(filename):
-# 		with open('save/' + name + '.pkl', 'rb') as f:
-# 			return pickle.load(f)
-# 	else:
-# 			return False
-
 def boot():
 	print("███████╗██████╗  ██╗   ██ ███████ ██████╗ ███████ ██╗ ██████╗ ███╗   ██╗")
 	print("██╔════ ██╔═══██ ██║   ██ ██╔════ ██╔══██ ██╔════ ██ ██╔════╝ ████╗  ██║")
@@ -48,25 +26,11 @@ def boot():
 	print("╚════██ ██║   ██╚██╗ ██╔  ██╔══╝  ██╔══██ ██╔══╝  ██ ██║   ██ ██║╚██╗██║")
 	print("███████╚██████╔╝╚████╔╝   ███████ ██║  ██ ███████ ██ ╚ ██████ ██║ ╚████║")
 	print("╚══════╝╚═════╝  ╚═══╝    ╚══════ ╚═╝  ╚═ ╚══════ ╚═╝ ╚═════╝ ╚═╝  ╚═══╝")
-
-# def load(itr):
-# 	l=0
-# 	while l<itr:
-# 		print(".")
-# 		l+=1
-# 		sleep(0.5)
-
+	print("BUILD 1.0.0")
 def welcome():
 	welcomeMsg = "\nWelcome to the VOID"
 	sov_engines.discourseEngine(3, 0, welcomeMsg)
-
-# def typewriter(line):
-# 	for x in line:
-# 		print(x, end='')
-# 		sys.stdout.flush()
-# 		sleep(0.05)
-
-
+	print("\n")
 
 
 ####################
@@ -92,8 +56,14 @@ def momento():	# DATA PERSISTENCE
 	}
 	return ref
 #def cogito():	# DATA PROGRESSION 
-
-
+def persist():
+	if not sov_utils.load_obj("momento"):	  # Load save file (if exists)
+		moment = {}  
+		print("Setting up save data")
+		return momento()
+	else: 
+		return sov_utils.load_obj("momento")
+		# print(moment)
 
 
 ##############
@@ -105,23 +75,12 @@ def section_0():
 	resume = 0
 	moment = {}
 
-
-	##########################
-	#### DATA PERSISTENCE ####
-	if not sov_utils.load_obj("momento"):	  # Load save file (if exists)
-		moment = {}  
-		print("Setting up save data")
-		moment = momento()
-	else: 
-		moment = sov_utils.load_obj("momento")
-		# print(moment)
-
-
 	##########################
 	##### INITIALIZATION #####
-	boot()
-	welcome()
-
+	boot()				# INIT RUN
+	moment = persist()	# SETUP DATA PERSISTENCE 
+	welcome()			# SETUP INTERFACE
+	
 
 	##########################
 	######## EXECUTION #######

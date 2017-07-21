@@ -49,6 +49,7 @@ def save_obj(obj, name):
 				raise
 	with open(filename, "w") as f:
 	    f.write("")
+	    return True
 
 	with open('save/'+ name + '.pkl', 'wb') as f:
 		pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
